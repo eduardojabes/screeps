@@ -14,7 +14,7 @@ const resetCounters = function(room) {
 Room.prototype.buildBaseUnseenControllerLevel = function() {
   this.memory.controllerLevel = this.memory.controllerLevel || {};
   if (!this.memory.controllerLevel['setup_level_' + this.controller.level]) {
-    if (Game.cpu.tickLimit > Game.cpu.bucket) {
+    if (Game.cpu.tickLimit > Game.cpu.bucket + Game.cpu.limit) {
       this.debugLog('baseBuilding', `Skipping room_controller.js execution CPU limit: ${Game.cpu.limit} tickLimit: ${Game.cpu.tickLimit} bucket: ${Game.cpu.bucket}`);
       return true;
     }
