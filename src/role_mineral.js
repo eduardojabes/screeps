@@ -89,7 +89,7 @@ function nextState(creep) {
  * @return {boolean} If it was an success
  */
 function getFullCapacity(creep, target, resource) {
-  if (_.sum(creep.carry) === creep.carryCapacity) {
+  if (_.sum(creep.carry) === creep.getCapacity) {
     if (target instanceof StructureTerminal) {
       if (creep.pos.isNearTo(target)) {
         for (const res of Object.keys(creep.carry)) {
@@ -112,14 +112,14 @@ const getAmount = function(creep, target, resource) {
   let amount = 0;
   if (target instanceof StructureTerminal) {
     if (resource === 'energy') {
-      amount = Math.min(target.store[resource], creep.carryCapacity - _.sum(creep.carry));
+      amount = Math.min(target.store[resource], creep.getCapacity - _.sum(creep.carry));
     } else {
-      amount = Math.min(target.store[resource], creep.carryCapacity / 2);
+      amount = Math.min(target.store[resource], creep.getCapacity / 2);
     }
   }
 
   if (target instanceof StructureLab) {
-    amount = Math.min(target.mineralAmount, creep.carryCapacity - _.sum(creep.carry));
+    amount = Math.min(target.mineralAmount, creep.getCapacity - _.sum(creep.carry));
   }
   return amount;
 };
@@ -145,7 +145,7 @@ const handleWithdrawResponse = function(creep, target, resource, amount, returnC
     return false;
   }
   creep.log('get: ' + returnCode + ' target: ' + target + ' resource: ' + resource + ' amount: ' + amount);
-  creep.log(target.mineralAmount + ' ' + (creep.carryCapacity - _.sum(creep.carry)));
+  creep.log(target.mineralAmount + ' ' + (creep.getCapacity - _.sum(creep.carry)));
 };
 
 

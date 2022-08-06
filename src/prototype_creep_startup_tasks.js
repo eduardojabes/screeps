@@ -151,7 +151,7 @@ Creep.prototype.getEnergyFromHostileStructures = function() {
     this.moveToMy(structure.pos);
   } else {
     const resCode = this.withdraw(structure, RESOURCE_ENERGY);
-    if (resCode === OK && getEnergy(structure) <= this.carryCapacity) {
+    if (resCode === OK && getEnergy(structure) <= this.getCapacity) {
       structure.destroy();
     } else {
       this.log(Game.time, 'withdraw from hostile ' + resCode);
@@ -168,10 +168,11 @@ Creep.prototype.getEnergyFromStorage = function() {
   if (this.room.memory.misplacedSpawn) {
     return false;
   }
-
-  if (this.room.isStruggeling()) {
-    return false;
-  }
+  
+  //Is Struggeling don't exists
+  //  if (this.room.isStruggeling) {
+  //    return false;
+  //  }
 
   if (this.store.energy) {
     return false;
@@ -399,7 +400,7 @@ Creep.prototype.repairStructure = function() {
  * @return {number} total received resources amount
  */
 Creep.prototype.pickupOrWithdrawFromSourcer = function(target) {
-  const creepFreeSpace = this.carryCapacity - _.sum(this.carry);
+  const creepFreeSpace = this.getCapacity - _.sum(this.carry);
   let pickedUp = 0;
   // this.log('pickupOrWithdrawFromSourcer free '+creepFreeSpace+' '+target+' '+target.amount)
   if (target.amount < creepFreeSpace) {
@@ -411,7 +412,7 @@ Creep.prototype.pickupOrWithdrawFromSourcer = function(target) {
       pickedUp += toWithdraw;
     } else {
       const sourcer = target.pos.lookFor(LOOK_CREEPS)
-        .find((creep) => creep.memory && creep.memory.role === 'sourcer' && creep.carry[target.resourceType] > 0 && _.sum(creep.carry) === creep.carryCapacity);
+        .find((creep) => creep.memory && creep.memory.role === 'sourcer' && creep.carry[target.resourceType] > 0 && _.sum(creep.carry) === creep.getCapacity);
       if (sourcer) {
         const toWithdraw = Math.min(creepFreeSpace - target.amount, sourcer.carry[target.resourceType]);
         sourcer.transfer(this, target.resourceType, toWithdraw);

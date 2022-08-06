@@ -122,7 +122,7 @@ roles.nextroomer.defendTower = function(creep) {
 };
 
 roles.nextroomer.stayAtSource = function(creep, source) {
-  if (creep.carry.energy < creep.carryCapacity - 30) {
+  if (creep.carry.energy < creep.getCapacity - 30) {
     const returnCode = creep.harvest(source);
     if (returnCode === OK) {
       if (creep.carry.energy >= 0) {

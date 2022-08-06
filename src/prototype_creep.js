@@ -174,7 +174,7 @@ Creep.prototype.isStuck = function() {
 };
 
 Creep.prototype.getEnergyFromStructure = function() {
-  if (this.carry.energy === this.carryCapacity) {
+  if (this.carry.energy === this.getCapacity) {
     return false;
   }
   const area = this.room.lookForAtArea(
